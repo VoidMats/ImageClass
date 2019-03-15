@@ -43,9 +43,12 @@ public:
     uint8_t getGreen() { return greenPixel; }
     uint8_t getBlue() { return bluePixel; }
     uint8_t getGray() { return grayPixel; }
+    uint8_t getColor(COLOR _color);
     void setRed(uint8_t _red);
     void setGreen(uint8_t _green);
     void setBlue(uint8_t _blue);
+    void setgray(uint8_t _gray);
+    void setColor(COLOR _color, uint8_t _value);
     void setRGB(uint8_t _red, uint8_t _green, uint8_t _blue);
 };
 

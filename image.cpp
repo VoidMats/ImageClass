@@ -107,49 +107,49 @@ Pixel &Image::operator =(const size_t &_i)
     return data[_i];
 }
 
-void Image::setImage()
-{
-
-}
-
 void Image::binarisation(COLOR _color, uint8_t _threshold)
 {
-    switch(_color)
-    {
-    case COLOR::red:
-        for (size_t h=0; h<height; h++ ) {
-            for( size_t w=0; w<width; w++ ) {
-                Pixel pix = getPixel(h,w);
-                if( pix.getRed() < _threshold )
-                    pix.setRed(0);
-                else {
-                    pix.setRed(COLORMAX);
-                }
-                setPixel(h,w,pix);
+    for (size_t h=0; h<height; h++ ) {
+        for( size_t w=0; w<width; w++ ) {
+            Pixel pix = getPixel(h,w);
+            if( pix.getColor(_color) >= _threshold ) // TODO Has to be checked
+                pix.setColor(_color, 0);
+            else {
+                pix.setColor(_color, COLORMAX);
             }
+            setPixel(h,w,pix);
         }
-        break;
-    case COLOR::green:
-        for (size_t h=0; h<height; h++) {
-            for( size_t w=0; w<width; w++) {
-                //histogram[image.at(h).at(w).getGreen()] += 1;
+    }
+}
+
+void Image::linearColorManipulation(COLOR _color, uint8_t _threshold)
+{
+    for (size_t h=0; h<height; h++ ) {
+        for( size_t w=0; w<width; w++ ) {
+            Pixel pix = getPixel(h,w);
+            if( pix.getColor(_color) >= _threshold )
+                pix.setColor(_color, 0);
+            else {
+                uint8_t value = COLORMAX/_threshold;
+                pix.setColor(_color, value);
             }
+            setPixel(h,w,pix);
         }
-        break;
-    case COLOR::blue:
-        for (size_t h=0; h<height; h++) {
-            for (size_t w=0; w<width; w++) {
-                //histogram[image.at(h).at(w).getBlue()] += 1;
-            }
+    }
+}
+
+/* This will manipulate the color according to a table. The table has to be 256
+ * @_color [COLOR]
+ * @_table [uint8_t[256]]
+ */
+void Image::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table)
+{
+    for (size_t h=0; h<height; h++ ) {
+        for( size_t w=0; w<width; w++ ) {
+            Pixel pix = getPixel(h,w);
+            pix.setColor(_color, _table.at(pix.getColor(_color)));
+            setPixel(h,w,pix);
         }
-        break;
-    case COLOR::gray:
-        for (size_t h=0; h<height; h++) {
-            for (size_t w=0; w<width; w++) {
-                //histogram[image.at(h).at(w).getBlue()] += 1;
-            }
-        }
-        break;
     }
 }
 

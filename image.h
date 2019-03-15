@@ -3,6 +3,7 @@
 // C++ includes
 #include <stdint.h>
 #include <vector>
+#include <array>
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -33,6 +34,7 @@ private:
     template<typename HistoSize>
     HistoSize calcHistogramSize ();
 
+
 public:
     //Image() : height{0}, width{0}, data{nullptr} {} //Maybe this should be removed
     Image(const size_t &_height,
@@ -53,7 +55,6 @@ public:
     void setPixel(int _height, int _width, const Pixel &_pixel=Pixel());
     size_t getHeight() const { return height; }
     size_t getWidth() const { return width; }
-    void setImage();
 
     // Public image process functions
     template<typename HistoSize>
@@ -61,7 +62,8 @@ public:
     template<typename HistoSize>
     std::vector<HistoSize> getColorHistorgram(COLOR _color);
     void binarisation(COLOR _color, uint8_t _threshold);
-
+    void linearColorManipulation(COLOR _color, uint8_t _threshold);
+    void nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table);
 };
 
 #endif // IMAGEEFFECT_H
