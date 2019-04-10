@@ -107,52 +107,6 @@ Pixel &Image::operator =(const size_t &_i)
     return data[_i];
 }
 
-void Image::binarisation(COLOR _color, uint8_t _threshold)
-{
-    for (size_t h=0; h<height; h++ ) {
-        for( size_t w=0; w<width; w++ ) {
-            Pixel pix = getPixel(h,w);
-            if( pix.getColor(_color) >= _threshold ) // TODO Has to be checked
-                pix.setColor(_color, 0);
-            else {
-                pix.setColor(_color, COLORMAX);
-            }
-            setPixel(h,w,pix);
-        }
-    }
-}
-
-void Image::linearColorManipulation(COLOR _color, uint8_t _threshold)
-{
-    for (size_t h=0; h<height; h++ ) {
-        for( size_t w=0; w<width; w++ ) {
-            Pixel pix = getPixel(h,w);
-            if( pix.getColor(_color) >= _threshold )
-                pix.setColor(_color, 0);
-            else {
-                uint8_t value = COLORMAX/_threshold;
-                pix.setColor(_color, value);
-            }
-            setPixel(h,w,pix);
-        }
-    }
-}
-
-/* This will manipulate the color according to a table. The table has to be 256
- * @_color [COLOR]
- * @_table [uint8_t[256]]
- */
-void Image::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table)
-{
-    for (size_t h=0; h<height; h++ ) {
-        for( size_t w=0; w<width; w++ ) {
-            Pixel pix = getPixel(h,w);
-            pix.setColor(_color, _table.at(pix.getColor(_color)));
-            setPixel(h,w,pix);
-        }
-    }
-}
-
 template<typename HistoSize>
 std::vector<HistoSize> Image::getHistogram ()
 {
@@ -222,7 +176,7 @@ void Image::setPixel(size_t _height, size_t _width, const Pixel &_pixel)
 void Image::setPixel(int _height, int _width, const Pixel &_pixel)
 {
     if(_height<0 || _width<0) {
-        throw("Error Image::setPixel - parameter out of range");
+        throw("Error Image::setPixel - parameter out of range"); //TODO proper throw
     }
     else {
         data[(_height+1)*(_width+1)] = _pixel;

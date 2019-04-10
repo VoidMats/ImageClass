@@ -43,6 +43,14 @@ uint8_t Pixel::getColor(COLOR _color)
     return temp;
 }
 
+std::string Pixel::getHex()
+{
+    std::stringstream stream;
+    stream << "#" << std::setfill('0') << std::setw(sizeof(uint8_t) * 2) << std::hex << static_cast<int>(redPixel)
+           << std::hex << static_cast<int>(greenPixel) << std::hex << static_cast<int>(bluePixel);
+    return stream.str();
+}
+
 void Pixel::setRed(uint8_t _red)
 {
     redPixel = _red;

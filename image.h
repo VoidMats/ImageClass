@@ -13,9 +13,7 @@
 #include "smartpointers.h"
 // Library includes
 
-//using namespace std;
-
-const size_t COLORMAX = 255;
+const size_t COLORMAX{255};
 
 class Image
 {
@@ -32,8 +30,7 @@ private:
 
     // Private functions
     template<typename HistoSize>
-    HistoSize calcHistogramSize ();
-
+    HistoSize calcHistogramSize();
 
 public:
     //Image() : height{0}, width{0}, data{nullptr} {} //Maybe this should be removed
@@ -61,9 +58,7 @@ public:
     std::vector<HistoSize> getHistogram();
     template<typename HistoSize>
     std::vector<HistoSize> getColorHistorgram(COLOR _color);
-    void binarisation(COLOR _color, uint8_t _threshold);
-    void linearColorManipulation(COLOR _color, uint8_t _threshold);
-    void nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table);
+
 };
 
 #endif // IMAGEEFFECT_H

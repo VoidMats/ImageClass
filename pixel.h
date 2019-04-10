@@ -2,6 +2,10 @@
 #define PIXEL_H
 // C++ includes
 #include <stdint.h>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+//#include <cstdio>
 
 //using namespace std;
 
@@ -44,6 +48,7 @@ public:
     uint8_t getBlue() { return bluePixel; }
     uint8_t getGray() { return grayPixel; }
     uint8_t getColor(COLOR _color);
+    std::string getHex();
     void setRed(uint8_t _red);
     void setGreen(uint8_t _green);
     void setBlue(uint8_t _blue);

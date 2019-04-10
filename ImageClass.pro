@@ -1,6 +1,6 @@
 QT += gui
 
-CONFIG += c++11 console
+CONFIG += c++14 console
 CONFIG -= app_bundle
 
 # The following define makes your compiler emit warnings if you use
@@ -18,7 +18,8 @@ SOURCES += \
         main.cpp \
     imagefile.cpp \
     image.cpp \
-    pixel.cpp
+    pixel.cpp \
+    imageprocess.cpp
 
 #LIBS += -lfreeimageplus
 
@@ -31,4 +32,5 @@ HEADERS += \
     imagefile.h \
     image.h \
     pixel.h \
-    smartpointers.h
+    smartpointers.h \
+    imageprocess.h
