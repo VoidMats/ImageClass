@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QString>
 #include <QImage>
+#include <QDebug>
 // My includes
 #include "pixel.h"
 #include "image.h"
@@ -20,7 +21,7 @@ class ImageFile : public QObject
     Q_OBJECT
 public:
     explicit ImageFile(QObject *parent = nullptr);
-    Image loadImage(QString _fileName) const;
+    Image loadImage(QString _fileName);
     void saveImage(QString _filename, const Image &_image);
 
     // For testing purposes
@@ -31,7 +32,7 @@ signals:
 public slots:
 
 private:
-
+    QImage::Format imageFormat;
 };
 
 #endif // IMAGEFILE_H

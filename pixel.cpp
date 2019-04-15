@@ -7,17 +7,23 @@ void Pixel::calcGrayPixel()
                                      bluePixel*0.144);
 }
 
-Pixel::Pixel(int redPixel, int greenPixel, int bluePixel, int alpha)
+Pixel::Pixel():
+    redPixel{255}, greenPixel{255}, bluePixel{255}, alpha{0}
 {
-    redPixel = static_cast<uint8_t>(redPixel);
-    greenPixel = static_cast<uint8_t>(greenPixel);
-    bluePixel = static_cast<uint8_t>(bluePixel);
-    alpha = static_cast<uint8_t>(alpha);
     calcGrayPixel();
 }
 
-Pixel::Pixel(uint8_t redPixel, uint8_t greenPixel, uint8_t bluePixel, uint8_t alpha)
-    :redPixel{redPixel}, greenPixel{greenPixel}, bluePixel{bluePixel}, alpha{alpha}
+Pixel::Pixel(int _redPixel, int _greenPixel, int _bluePixel, float _alpha)
+{
+    redPixel = static_cast<uint8_t>(_redPixel);
+    greenPixel = static_cast<uint8_t>(_greenPixel);
+    bluePixel = static_cast<uint8_t>(_bluePixel);
+    alpha = _alpha;
+    calcGrayPixel();
+}
+
+Pixel::Pixel(uint8_t _redPixel, uint8_t _greenPixel, uint8_t _bluePixel, float _alpha)
+    :redPixel{_redPixel}, greenPixel{_greenPixel}, bluePixel{_bluePixel}, alpha{_alpha}
 {
     calcGrayPixel();
 }

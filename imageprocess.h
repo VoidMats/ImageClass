@@ -16,9 +16,13 @@ private:
 
 public:
     ImageProcess(const Image &_image);  // TODO rule of five
+    ~ImageProcess();
 
+    // Public image manipulation functions
     void setProcess();
     void resetProcess();
+    Image getOriginalImage();
+    Image getProcessImage();
 
     // Public image process functions
     void binarisation(COLOR _color, uint8_t _threshold);

@@ -1,4 +1,5 @@
-QT += gui
+QT += gui \
+    testlib
 
 CONFIG += c++14 console
 CONFIG -= app_bundle
@@ -19,7 +20,8 @@ SOURCES += \
     imagefile.cpp \
     image.cpp \
     pixel.cpp \
-    imageprocess.cpp
+    imageprocess.cpp \
+    test.cpp
 
 #LIBS += -lfreeimageplus
 
@@ -33,4 +35,5 @@ HEADERS += \
     image.h \
     pixel.h \
     smartpointers.h \
-    imageprocess.h
+    imageprocess.h \
+    test.h

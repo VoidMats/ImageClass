@@ -6,6 +6,11 @@ ImageProcess::ImageProcess(const Image &_image):
 
 }
 
+ImageProcess::~ImageProcess()
+{
+
+}
+
 /* This function will write over the modified image to the original
  * after this processed image can't go back to original
  *
@@ -21,6 +26,16 @@ void ImageProcess::setProcess()
 void ImageProcess::resetProcess()
 {
     mod = org;
+}
+
+Image ImageProcess::getOriginalImage()
+{
+    return org;
+}
+
+Image ImageProcess::getProcessImage()
+{
+    return mod;
 }
 
 

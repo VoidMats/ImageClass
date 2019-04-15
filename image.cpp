@@ -23,7 +23,7 @@ HistoSize Image::calcHistogramSize()
  * [size_t] height
  * [size_t] width */
 Image::Image(const size_t &_height, const size_t &_width, const Pixel &_pixel)
-    :height{_height}, width{_width}, data{nullptr}
+    :height{_height}, width{_width}, data{nullptr}, sizeByte{0}
 {
     //data = std::make_shared<Pixel[]>(height*width); This does not work https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58822
     data = new Pixel[height*width];

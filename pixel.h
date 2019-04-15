@@ -14,18 +14,16 @@ enum COLOR{ red, green, blue, gray };
 class Pixel
 {
 private:
-    uint8_t redPixel;
-    uint8_t greenPixel;
-    uint8_t bluePixel;
+    uint8_t redPixel, greenPixel, bluePixel;
     uint8_t grayPixel;
-    uint8_t alpha;
+    float alpha;
     void calcGrayPixel();
 
 public:
     // Constructors
-    Pixel() : redPixel{0}, greenPixel{0}, bluePixel{0}, grayPixel{0}, alpha{0} {}
-    Pixel(int redPixel, int greenPixel, int bluePixel, int alpha=255);
-    Pixel(uint8_t redPixel, uint8_t greenPixel, uint8_t bluePixel, uint8_t alpha=255);
+    Pixel();
+    Pixel(int redPixel, int greenPixel, int bluePixel, float alpha=1.0);
+    Pixel(uint8_t _redPixel, uint8_t _greenPixel, uint8_t _bluePixel, float alpha=1.0);
     ~Pixel() = default;
     // Copy constructor
     Pixel(Pixel const &_copy) = default;

@@ -22,7 +22,7 @@ private:
     size_t width = 0;
     Pixel *data = nullptr;
     //std::shared_ptr<Pixel[]> data;  //In C++11 unique_ptr is not complete does not exist
-    size_t sizeByte = 0;
+    size_t sizeByte;
 
     // Pixel assignment operator
     const Pixel &operator = (const size_t  &_i) const;
