@@ -15,7 +15,17 @@ int main(int argc, char *argv[])
     Pixel mixPixel{66,134,244};
     std::cout << "rgb(66,134,244) = " << mixPixel.getHex() << std::endl;
 
-    ImageFile file;
+    std::cout << "Create a new image and write pixels" << std::endl;
+    ImageFile file(QImage::Format_RGB32);
+    Image emptyImage = Image(40,40);
+    for (unsigned int h{0}; h<emptyImage.getHeight(); h++) {
+        Pixel ip = Pixel(0,0,0);
+        emptyImage.setPixel(h,5,ip);
+    }
+    file.printImage(emptyImage);
+    std::cout << "Save image to file" << endl;
+    file.saveImage("./test1.jpg", emptyImage);
+
     Image normalImage = file.loadImage("./bild2.jpg");
     file.saveImage("./test2.jpg", normalImage);
     Image testImage = file.loadImage("./sample20Big.png");
@@ -23,7 +33,7 @@ int main(int argc, char *argv[])
 
 
     Image ie(50,50);
-    for( int i=0; static_cast<size_t>(i)<ie.getHeight(); i++) {
+    for( size_t i=0; i<ie.getHeight(); i++) {
         Pixel pixelToSet{0,0,0};
         ie.setPixel(i,i,pixelToSet);
     }

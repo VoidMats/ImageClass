@@ -1,7 +1,7 @@
 #include "imagefile.h"
 
-ImageFile::ImageFile(QObject *parent) :
-    QObject(parent), imageFormat{QImage::Format_Invalid}
+ImageFile::ImageFile(QImage::Format _format, QObject *parent) :
+    QObject(parent), imageFormat{_format}
 {
 
 }
@@ -10,6 +10,7 @@ Image ImageFile::loadImage(QString _fileName)
 {
     QImage img = QImage(_fileName);
     imageFormat = img.format();
+    std::cout << "Format in Image class are " << imageFormat << std::endl;
     Image returnImage(static_cast<size_t>(img.height()), static_cast<size_t>(img.width()));
 
     int height{ img.height() };
@@ -18,7 +19,7 @@ Image ImageFile::loadImage(QString _fileName)
     for (int h{0}; h<height; h++) {
         for (int w{0}; w<width; w++) {
             QColor pixelQt{ img.pixel(w,h) };
-            QString tmp =  QStringLiteral("%1 ").arg(pixelQt.red());
+            //QString tmp =  QStringLiteral("%1 ").arg(pixelQt.red());
             //std::cout << pixelQt.red() << " ";
             Pixel pixelIE( pixelQt.red(), pixelQt.green(), pixelQt.blue(), pixelQt.alpha() );
             returnImage.setPixel(h,w,pixelIE);
@@ -49,11 +50,12 @@ void ImageFile::saveImage(QString _filename, const Image &_image)
 void ImageFile::printImage(const Image &_image)
 {
     for (uli h{0}; h<_image.getHeight(); ++h) {
+        QString tmp;
         for (uli w{0}; w<_image.getWidth(); ++w) {
             Pixel p = _image.getPixel(h,w);
-            cout << " " << p.getGray();
+            tmp +=  QStringLiteral("%1 ").arg(p.getRed());
         }
-        cout << endl;
+        qDebug() << tmp;
     }
 }
 

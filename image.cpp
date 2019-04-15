@@ -32,7 +32,16 @@ Image::Image(const size_t &_height, const size_t &_width, const Pixel &_pixel)
     for (size_t i=0; i<total; ++i) {
         data[i] = _pixel;
     }
-    sizeByte = sizeof(Pixel)*height*width;  // Set the size of the array
+    // Set the size of the array
+    sizeByte = sizeof(Pixel)*height*width;
+
+    // Fill the Image with pixels
+    /*
+    for (unsigned int h{0}; h<height; h++) {
+        for (unsigned int w{0}; w<width; w++) {
+            data[(_height+1)*(_width+1)] = _pixel;
+        }
+    }*/
 }
 
 Image::~Image()
@@ -173,6 +182,7 @@ void Image::setPixel(size_t _height, size_t _width, const Pixel &_pixel)
     data[(_height+1)*(_width+1)] = _pixel;
 }
 
+/*
 void Image::setPixel(int _height, int _width, const Pixel &_pixel)
 {
     if(_height<0 || _width<0) {
@@ -181,4 +191,4 @@ void Image::setPixel(int _height, int _width, const Pixel &_pixel)
     else {
         data[(_height+1)*(_width+1)] = _pixel;
     }
-}
+}*/

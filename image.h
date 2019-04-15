@@ -49,7 +49,7 @@ public:
     Pixel getPixel(size_t _height, size_t _width) const;
     //Pixel getPixel(size_t _memIterator) const { return data[_memIterator]; } Not sure about this yet
     void setPixel(size_t _height, size_t _width, const Pixel &_pixel=Pixel());
-    void setPixel(int _height, int _width, const Pixel &_pixel=Pixel());
+    //void setPixel(int _height, int _width, const Pixel &_pixel=Pixel());
     size_t getHeight() const { return height; }
     size_t getWidth() const { return width; }
 

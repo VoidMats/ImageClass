@@ -20,7 +20,7 @@ class ImageFile : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageFile(QObject *parent = nullptr);
+    explicit ImageFile(QImage::Format _format = QImage::Format_Invalid, QObject *parent = nullptr);
     Image loadImage(QString _fileName);
     void saveImage(QString _filename, const Image &_image);
 
