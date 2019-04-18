@@ -22,7 +22,7 @@ Image ImageFile::loadImage(QString _fileName)
             //QString tmp =  QStringLiteral("%1 ").arg(pixelQt.red());
             //std::cout << pixelQt.red() << " ";
             Pixel pixelIE( pixelQt.red(), pixelQt.green(), pixelQt.blue(), pixelQt.alpha() );
-            returnImage.setPixel(h,w,pixelIE);
+            returnImage.setPixel(w,h,pixelIE);
         }
     }
 
@@ -38,7 +38,7 @@ void ImageFile::saveImage(QString _filename, const Image &_image)
 
     for (uli h{0}; h<height; ++h) {
         for (uli w{0}; w<width; ++w) {
-            Pixel pixelIE = _image.getPixel(h,w);
+            Pixel pixelIE = _image.getPixel(w,h);
             QColor pixelQt = QColor(pixelIE.getRed(), pixelIE.getGreen(), pixelIE.getBlue());
             img.setPixelColor(static_cast<int>(w),static_cast<int>(h),pixelQt);
         }
@@ -52,7 +52,7 @@ void ImageFile::printImage(const Image &_image)
     for (uli h{0}; h<_image.getHeight(); ++h) {
         QString tmp;
         for (uli w{0}; w<_image.getWidth(); ++w) {
-            Pixel p = _image.getPixel(h,w);
+            Pixel p = _image.getPixel(w,h);
             tmp +=  QStringLiteral("%1 ").arg(p.getRed());
         }
         qDebug() << tmp;

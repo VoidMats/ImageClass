@@ -25,8 +25,10 @@ private:
     size_t sizeByte;
 
     // Pixel assignment operator
-    const Pixel &operator = (const size_t  &_i) const;
-    Pixel &operator = (const size_t &_i);
+    //const Pixel &operator = (const size_t  &_i) const;
+    //Pixel &operator = (const size_t &_i);
+    const Pixel& operator [] (const size_t &_i) const;
+    Pixel& operator [] (const size_t &_i);
 
     // Private functions
     template<typename HistoSize>
@@ -44,11 +46,13 @@ public:
     // Move constructor
     Image(Image &&_move);
     Image &operator = (Image &&_move);
+    // Other operators
+
 
     // Public attribute functions
-    Pixel getPixel(size_t _height, size_t _width) const;
+    Pixel getPixel(const size_t &_height, const size_t &_width) const;
     //Pixel getPixel(size_t _memIterator) const { return data[_memIterator]; } Not sure about this yet
-    void setPixel(size_t _height, size_t _width, const Pixel &_pixel=Pixel());
+    void setPixel(const size_t &_width, const size_t &_height, const Pixel &_pixel=Pixel());
     //void setPixel(int _height, int _width, const Pixel &_pixel=Pixel());
     size_t getHeight() const { return height; }
     size_t getWidth() const { return width; }

@@ -46,9 +46,12 @@ Image::Image(const size_t &_height, const size_t &_width, const Pixel &_pixel)
 
 Image::~Image()
 {
-    if(data!=nullptr) {
+    if(data != nullptr || sizeByte != 0) {
         delete [] data;
     }
+    sizeByte = 0;
+    height = 0;
+    width = 0;
 }
 
 /* Copy constructor for Image */
@@ -98,6 +101,7 @@ Image &Image::operator =(Image &&_move)
         width = _move.width;
         data = _move.data;
         sizeByte = sizeof(Pixel)*height*width;
+        // Delete move
         delete [] _move.data;
         _move.data = nullptr;
         _move.height = 0;
@@ -106,12 +110,23 @@ Image &Image::operator =(Image &&_move)
     return *this;
 }
 
+/*
 const Pixel &Image::operator =(size_t const &_i) const
 {
     return data[_i];
 }
 
 Pixel &Image::operator =(const size_t &_i)
+{
+    return data[_i];
+}
+*/
+const Pixel &Image::operator [](const size_t &_i) const
+{
+    return data[_i];
+}
+
+Pixel &Image::operator [](const size_t &_i)
 {
     return data[_i];
 }
@@ -172,14 +187,15 @@ std::vector<HistoSize> Image::getColorHistorgram (COLOR _color)
     return histogram;
 }
 
-Pixel Image::getPixel(size_t _height, size_t _width) const
+Pixel Image::getPixel(const size_t &_width, const size_t &_height) const
 {
-    return data[(_height+1)*(_width+1)];
+    // TODO assert(_width < width && _height < height);
+    return data[_height*width + _width];
 }
 
-void Image::setPixel(size_t _height, size_t _width, const Pixel &_pixel)
+void Image::setPixel(const size_t &_width, const size_t &_height, const Pixel &_pixel)
 {
-    data[(_height+1)*(_width+1)] = _pixel;
+    data[ _height * width +_width] = _pixel;
 }
 
 /*

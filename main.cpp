@@ -17,10 +17,13 @@ int main(int argc, char *argv[])
 
     std::cout << "Create a new image and write pixels" << std::endl;
     ImageFile file(QImage::Format_RGB32);
-    Image emptyImage = Image(40,40);
+    Image emptyImage = Image(20,20);
+    //Pixel ip = Pixel(0,0,0);
+    //emptyImage.setPixel(2,2,ip);
+
     for (unsigned int h{0}; h<emptyImage.getHeight(); h++) {
         Pixel ip = Pixel(0,0,0);
-        emptyImage.setPixel(h,5,ip);
+        emptyImage.setPixel(5,h,ip);
     }
     file.printImage(emptyImage);
     std::cout << "Save image to file" << endl;
@@ -32,12 +35,12 @@ int main(int argc, char *argv[])
     file.saveImage("./test3.jpg", testImage);
 
 
-    Image ie(50,50);
-    for( size_t i=0; i<ie.getHeight(); i++) {
-        Pixel pixelToSet{0,0,0};
-        ie.setPixel(i,i,pixelToSet);
-    }
-    file.saveImage("./test4.png", ie);
+    //Image ie(50,50);
+    //for( size_t i=0; i<ie.getHeight(); i++) {
+    //    Pixel pixelToSet{0,0,0};
+    //    ie.setPixel(i,i,pixelToSet);
+    //}
+    //file.saveImage("./test4.png", ie);
 
     //Pixel test = ie.getPixel(2,2);
     //test.setBlue(120);

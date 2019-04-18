@@ -32,12 +32,12 @@ public:
     Pixel(Pixel &&_move) = default;
     Pixel &operator = (Pixel &&_move) = default;
     // Other operators
-    bool operator != (const Pixel &_comp) const
-    {
+    bool operator != (const Pixel &_comp) const {
         return _comp.redPixel != redPixel ||
                _comp.greenPixel != greenPixel ||
                _comp.bluePixel != bluePixel;
     }
+
     // **** More operators needed
 
     // Public functions
