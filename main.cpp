@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "image.h"
+#include "imageprocess.h"
 #include "imagefile.h"
 #include "pixel.h"
 #include "test.h"
@@ -30,9 +31,20 @@ int main(int argc, char *argv[])
     file.saveImage("./test1.jpg", emptyImage);
 
     Image normalImage = file.loadImage("./bild2.jpg");
+    normalImage.convGray();
     file.saveImage("./test2.jpg", normalImage);
-    Image testImage = file.loadImage("./sample20Big.png");
-    file.saveImage("./test3.jpg", testImage);
+    ImageProcess normalProcess{normalImage};
+    // Testing linearColorManipulation
+    normalProcess.linearColorManipulation(gray, 120);
+    Image linearImage = normalProcess.getProcessImage();
+    file.saveImage("./test3.jpg", linearImage);
+    // Testing point different filter
+    normalProcess.pointDifferentFilter(gray);
+    Image filterImage = normalProcess.getProcessImage();
+    file.saveImage("./test4.jpg", linearImage);
+
+    //Image testImage = file.loadImage("./sample20Big.png");
+    //file.saveImage("./test5.jpg", testImage);
 
 
     //Image ie(50,50);
@@ -40,7 +52,7 @@ int main(int argc, char *argv[])
     //    Pixel pixelToSet{0,0,0};
     //    ie.setPixel(i,i,pixelToSet);
     //}
-    //file.saveImage("./test4.png", ie);
+    //file.saveImage("./test5.png", ie);
 
     //Pixel test = ie.getPixel(2,2);
     //test.setBlue(120);

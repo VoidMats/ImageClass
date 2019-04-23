@@ -23,6 +23,7 @@ private:
     Pixel *data = nullptr;
     //std::shared_ptr<Pixel[]> data;  //In C++11 unique_ptr is not complete does not exist
     size_t sizeByte;
+    bool imageGray = false;
 
     // Pixel assignment operator
     //const Pixel &operator = (const size_t  &_i) const;
@@ -50,7 +51,7 @@ public:
 
 
     // Public attribute functions
-    Pixel getPixel(const size_t &_height, const size_t &_width) const;
+    Pixel getPixel(const size_t &_width, const size_t &_height) const;
     //Pixel getPixel(size_t _memIterator) const { return data[_memIterator]; } Not sure about this yet
     void setPixel(const size_t &_width, const size_t &_height, const Pixel &_pixel=Pixel());
     //void setPixel(int _height, int _width, const Pixel &_pixel=Pixel());
@@ -62,6 +63,7 @@ public:
     std::vector<HistoSize> getHistogram();
     template<typename HistoSize>
     std::vector<HistoSize> getColorHistorgram(COLOR _color);
+    void convGray();
 
 };
 

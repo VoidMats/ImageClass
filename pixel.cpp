@@ -1,16 +1,17 @@
 #include "pixel.h"
 
-void Pixel::calcGrayPixel()
+uint8_t Pixel::calcGrayPixel()
 {
-    grayPixel = static_cast<uint8_t>(redPixel*0.299 +
+    uint8_t grayPixel = static_cast<uint8_t>(redPixel*0.299 +
                                      greenPixel*0.587 +
                                      bluePixel*0.144);
+    return grayPixel;
 }
 
 Pixel::Pixel():
     redPixel{255}, greenPixel{255}, bluePixel{255}, alpha{0}
 {
-    calcGrayPixel();
+    pixelGray = false;
 }
 
 Pixel::Pixel(int _redPixel, int _greenPixel, int _bluePixel, float _alpha)
@@ -19,13 +20,21 @@ Pixel::Pixel(int _redPixel, int _greenPixel, int _bluePixel, float _alpha)
     greenPixel = static_cast<uint8_t>(_greenPixel);
     bluePixel = static_cast<uint8_t>(_bluePixel);
     alpha = _alpha;
-    calcGrayPixel();
+    pixelGray = false;
 }
 
 Pixel::Pixel(uint8_t _redPixel, uint8_t _greenPixel, uint8_t _bluePixel, float _alpha)
     :redPixel{_redPixel}, greenPixel{_greenPixel}, bluePixel{_bluePixel}, alpha{_alpha}
 {
-    calcGrayPixel();
+    pixelGray = false;
+}
+
+uint8_t Pixel::getGray()
+{
+    if( pixelGray )
+        return redPixel;  // All rgb values are the same
+    else
+        return calcGrayPixel();
 }
 
 uint8_t Pixel::getColor(COLOR _color)
@@ -34,13 +43,13 @@ uint8_t Pixel::getColor(COLOR _color)
     switch(_color)
     {
     case COLOR::red:
-        temp = getRed();
+        temp = redPixel;
         break;
     case COLOR::green:
-        temp = getGreen();
+        temp = greenPixel;
         break;
     case COLOR::blue:
-        temp = getBlue();
+        temp = bluePixel;
         break;
     case COLOR::gray:
         temp = getGray();
@@ -60,19 +69,23 @@ std::string Pixel::getHex()
 void Pixel::setRed(uint8_t _red)
 {
     redPixel = _red;
-    calcGrayPixel();
 }
 
 void Pixel::setGreen(uint8_t _green)
 {
     greenPixel = _green;
-    calcGrayPixel();
 }
 
 void Pixel::setBlue(uint8_t _blue)
 {
     bluePixel = _blue;
-    calcGrayPixel();
+}
+
+void Pixel::setgray()
+{
+    uint8_t tmp = calcGrayPixel();
+    setRGB(tmp, tmp, tmp);
+    pixelGray = true;
 }
 
 void Pixel::setColor(COLOR _color, uint8_t _value)
@@ -89,7 +102,8 @@ void Pixel::setColor(COLOR _color, uint8_t _value)
         setBlue(_value);
         break;
     case COLOR::gray:
-        grayPixel = _value;
+        setRGB(_value, _value, _value);
+        pixelGray = true;
         break;
     }
 }
@@ -99,6 +113,5 @@ void Pixel::setRGB(uint8_t _red, uint8_t _green, uint8_t _blue)
     redPixel = _red;
     greenPixel = _green;
     bluePixel = _blue;
-    calcGrayPixel();
 }
 

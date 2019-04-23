@@ -34,14 +34,7 @@ Image::Image(const size_t &_height, const size_t &_width, const Pixel &_pixel)
     }
     // Set the size of the array
     sizeByte = sizeof(Pixel)*height*width;
-
-    // Fill the Image with pixels
-    /*
-    for (unsigned int h{0}; h<height; h++) {
-        for (unsigned int w{0}; w<width; w++) {
-            data[(_height+1)*(_width+1)] = _pixel;
-        }
-    }*/
+    imageGray = false;
 }
 
 Image::~Image()
@@ -52,11 +45,13 @@ Image::~Image()
     sizeByte = 0;
     height = 0;
     width = 0;
+    imageGray = false;
 }
 
 /* Copy constructor for Image */
-Image::Image(const Image &_copy)
-    :height{_copy.getHeight()}, width{_copy.getWidth()}, data{nullptr}
+Image::Image(const Image &_copy):
+    height{_copy.height}, width{_copy.width},
+    data{nullptr}, imageGray{_copy.imageGray}
 {
     //data = std::make_shared<Pixel[]>(height*width);
     /*
@@ -76,19 +71,22 @@ Image &Image::operator =(const Image &_copy)
         delete [] data;
     data = new Pixel[height*width];
     sizeByte = sizeof(Pixel)*height*width;
+    imageGray = _copy.imageGray;
     std::memcpy(data, _copy.data, sizeByte);
     return *this;
 }
 
 /* Move constructor for Image */
-Image::Image(Image &&_move)
-    :height{_move.height}, width{_move.width}, data{_move.data}
+Image::Image(Image &&_move):
+    height{_move.height}, width{_move.width}, data{_move.data},
+    imageGray{_move.imageGray}
 {
     sizeByte = sizeof(Pixel)*height*width;
     delete [] _move.data;
     _move.data = nullptr;
     _move.height = 0;
     _move.width = 0;
+    _move.imageGray = false;
 }
 
 /* Move assigment operator */
@@ -101,11 +99,13 @@ Image &Image::operator =(Image &&_move)
         width = _move.width;
         data = _move.data;
         sizeByte = sizeof(Pixel)*height*width;
+        imageGray = _move.imageGray;
         // Delete move
         delete [] _move.data;
         _move.data = nullptr;
         _move.height = 0;
         _move.width = 0;
+        _move.imageGray = false;
     }
     return *this;
 }
@@ -134,10 +134,11 @@ Pixel &Image::operator [](const size_t &_i)
 template<typename HistoSize>
 std::vector<HistoSize> Image::getHistogram ()
 {
+    // TODO check if image is converthed into gray
     std::vector<HistoSize> histogram(255,0);
     for(size_t h=0; h<height; h++) {
         for(size_t w=0; w<width; w++) {
-            histogram[getPixel(h,w).getGray()] += 1;
+            histogram[getPixel(w,h).getGray()] += 1;
         }
     }
     return histogram;
@@ -190,12 +191,26 @@ std::vector<HistoSize> Image::getColorHistorgram (COLOR _color)
 Pixel Image::getPixel(const size_t &_width, const size_t &_height) const
 {
     // TODO assert(_width < width && _height < height);
-    return data[_height*width + _width];
+    return data[_height * width + _width];
 }
 
 void Image::setPixel(const size_t &_width, const size_t &_height, const Pixel &_pixel)
 {
-    data[ _height * width +_width] = _pixel;
+    data[_height * width +_width] = _pixel;
+}
+
+void Image::convGray()
+{
+    if( !imageGray ) {
+        for (size_t h=0; h<height; h++ ) {
+            for( size_t w=0; w<width; w++ ) {
+                Pixel pix = getPixel(w,h);
+                pix.setgray();
+                setPixel(w,h,pix);
+            }
+        }
+        imageGray = true;
+    }
 }
 
 /*

@@ -25,6 +25,7 @@ public:
     Image getProcessImage();
 
     // Public image process functions
+    void convToGray();
     void binarisation(COLOR _color, uint8_t _threshold);
     void linearColorManipulation(COLOR _color, uint8_t _threshold);
     void nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table);

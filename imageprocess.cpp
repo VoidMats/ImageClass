@@ -38,6 +38,11 @@ Image ImageProcess::getProcessImage()
     return mod;
 }
 
+void ImageProcess::convToGray()
+{
+    mod.convGray();
+}
+
 
 void ImageProcess::binarisation(COLOR _color, uint8_t _threshold)
 {
@@ -46,13 +51,13 @@ void ImageProcess::binarisation(COLOR _color, uint8_t _threshold)
 
     for (size_t h=0; h<height; h++ ) {
         for( size_t w=0; w<width; w++ ) {
-            Pixel pix = org.getPixel(h,w);
+            Pixel pix = org.getPixel(w, h);
             if( pix.getColor(_color) >= _threshold ) // TODO Has to be checked
                 pix.setColor(_color, 0);
             else {
                 pix.setColor(_color, COLORMAX);
             }
-            mod.setPixel(h,w,pix);
+            mod.setPixel(w, h, pix);
         }
     }
 }
@@ -64,14 +69,14 @@ void ImageProcess::linearColorManipulation(COLOR _color, uint8_t _threshold)
 
     for (size_t h=0; h<height; h++ ) {
         for( size_t w=0; w<width; w++ ) {
-            Pixel pix = org.getPixel(h,w);
+            Pixel pix = org.getPixel(w, h);
             if( pix.getColor(_color) >= _threshold )
                 pix.setColor(_color, 0);
             else {
                 uint8_t value = COLORMAX/_threshold;
                 pix.setColor(_color, value);
             }
-            mod.setPixel(h,w,pix);
+            mod.setPixel(w, h, pix);
         }
     }
 }
@@ -110,18 +115,19 @@ void ImageProcess::pointDifferentFilter(COLOR _color, uint8_t _factor)
 
     for (size_t h=1; h<height-1; h++ ) {
         for( size_t w=1; w<width-1; w++ ) {
-            Pixel pixA{ org.getPixel(h,w-1) };
-            Pixel pixB{ org.getPixel(h,w+1) };
-            Pixel pixC{ org.getPixel(h-1,w) };
-            Pixel pixD{ org.getPixel(h+1,w) };
+            Pixel pixA{ org.getPixel(w-1, h) };
+            Pixel pixB{ org.getPixel(w+1, h) };
+            Pixel pixC{ org.getPixel(w, h-1) };
+            Pixel pixD{ org.getPixel(w, h+1) };
 
+            // TODO this is not working
             uint8_t result = static_cast<uint8_t>(
                     ( abs(pixA.getColor(_color)-pixB.getColor(_color)) +
                       abs(pixC.getColor(_color)-pixD.getColor(_color)) ) / 2 );
 
-            Pixel pix{ org.getPixel(h,w) };
+            Pixel pix{ org.getPixel(w,h) };
             pix.setColor(_color, result);
-            mod.setPixel(height,width,pix);
+            mod.setPixel(width, height, pix);
         }
     }
 

@@ -15,9 +15,10 @@ class Pixel
 {
 private:
     uint8_t redPixel, greenPixel, bluePixel;
-    uint8_t grayPixel;
     float alpha;
-    void calcGrayPixel();
+    bool pixelGray = false;
+
+    uint8_t calcGrayPixel();
 
 public:
     // Constructors
@@ -41,16 +42,16 @@ public:
     // **** More operators needed
 
     // Public functions
-    uint8_t getRed() { return redPixel; }
-    uint8_t getGreen() { return greenPixel; }
-    uint8_t getBlue() { return bluePixel; }
-    uint8_t getGray() { return grayPixel; }
+    uint8_t getRed() const { return redPixel; }
+    uint8_t getGreen() const { return greenPixel; }
+    uint8_t getBlue() const { return bluePixel; }
+    uint8_t getGray();
     uint8_t getColor(COLOR _color);
     std::string getHex();
     void setRed(uint8_t _red);
     void setGreen(uint8_t _green);
     void setBlue(uint8_t _blue);
-    void setgray(uint8_t _gray);
+    void setgray();
     void setColor(COLOR _color, uint8_t _value);
     void setRGB(uint8_t _red, uint8_t _green, uint8_t _blue);
 };
