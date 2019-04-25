@@ -1,4 +1,4 @@
-#include <QCoreApplication>
+﻿#include <QCoreApplication>
 #include "image.h"
 #include "imageprocess.h"
 #include "imagefile.h"
@@ -30,18 +30,38 @@ int main(int argc, char *argv[])
     std::cout << "Save image to file" << endl;
     file.saveImage("./test1.jpg", emptyImage);
 
+    // *** Load image and convert to grayscale
     Image normalImage = file.loadImage("./bild2.jpg");
     normalImage.convGray();
     file.saveImage("./test2.jpg", normalImage);
     ImageProcess normalProcess{normalImage};
-    // Testing linearColorManipulation
-    normalProcess.linearColorManipulation(gray, 120);
-    Image linearImage = normalProcess.getProcessImage();
-    file.saveImage("./test3.jpg", linearImage);
-    // Testing point different filter
-    normalProcess.pointDifferentFilter(gray);
-    Image filterImage = normalProcess.getProcessImage();
-    file.saveImage("./test4.jpg", linearImage);
+
+    // *** Testing linearColorManipulation ***
+    //normalProcess.linearColorManipulation(gray, 120);
+    //Image linearImage = normalProcess.getProcessImage();
+    //file.saveImage("./test3.jpg", linearImage);
+
+    // *** Testing binarisation ***
+    //normalProcess.binarisation(gray, 120);
+    //Image binar1Image = normalProcess.getProcessImage();
+    //file.saveImage("./test3.jpg", binar1Image);
+    //normalProcess.binarisation(gray, 120, 30, 180);
+    //Image binar2Image = normalProcess.getProcessImage();
+    //file.saveImage("./test4.jpg", binar2Image);
+
+    // *** Testing nonlinearColorManipulation ***
+    std::array<uint8_t,COLORMAX> table;
+    for (uint8_t i=0; i<COLORMAX; i++) {
+        table[i] = i;
+    }
+    normalProcess.nonlinearColorManipulation(gray, table);
+    Image nonlinearImage = normalProcess.getProcessImage();
+    file.saveImage("./test5.jpg", nonlinearImage);
+
+    // *** Testing point different filter ***
+    //normalProcess.pointDifferentFilter(gray);
+    //Image filterImage = normalProcess.getProcessImage();
+    //file.saveImage("./test4.jpg", linearImage);
 
     //Image testImage = file.loadImage("./sample20Big.png");
     //file.saveImage("./test5.jpg", testImage);

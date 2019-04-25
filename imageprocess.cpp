@@ -14,7 +14,8 @@ ImageProcess::~ImageProcess()
 /* This function will write over the modified image to the original
  * after this processed image can't go back to original
  *
- *  */
+ *
+ */
 void ImageProcess::setProcess()
 {
     org = mod;
@@ -22,7 +23,8 @@ void ImageProcess::setProcess()
 
 /* This function will write over the original image to the modified
  * which can make new process function.
- *    */
+ *
+ */
 void ImageProcess::resetProcess()
 {
     mod = org;
@@ -43,8 +45,23 @@ void ImageProcess::convToGray()
     mod.convGray();
 }
 
-
-void ImageProcess::binarisation(COLOR _color, uint8_t _threshold)
+/* Function will do a binarisation of the image
+ * @_color [COLOR]
+ * @_threshold [uint8_t]
+ *
+ * B2(i,j) = fi,j( B1(i,j) ) where f=threshold
+ *
+ *         B2   Threshold
+ *  B2(2)  |    ______
+ *         |    |
+ *         |    |
+ *  B2(1)  |____|
+ *         |__________ B1
+ */
+void ImageProcess::binarisation(COLOR _color,
+                                uint8_t _threshold,
+                                uint8_t _min,
+                                uint8_t _max)
 {
     size_t height = org.getHeight();
     size_t width = org.getWidth();
@@ -52,9 +69,44 @@ void ImageProcess::binarisation(COLOR _color, uint8_t _threshold)
     for (size_t h=0; h<height; h++ ) {
         for( size_t w=0; w<width; w++ ) {
             Pixel pix = org.getPixel(w, h);
-            if( pix.getColor(_color) >= _threshold ) // TODO Has to be checked
-                pix.setColor(_color, 0);
+            if( pix.getColor(_color) <= _threshold )
+                pix.setColor(_color, _min);
             else {
+                pix.setColor(_color, _max);
+            }
+            mod.setPixel(w, h, pix);
+        }
+    }
+}
+
+/* This will manipulate the color with a linear relation up to the threshold
+ * @_color [COLOR]
+ * @_threshold [uint8_t]
+ *
+ * B2(i,j) = fi,j( B1(i,j) ) where f is linear f=k*x
+ *
+ *         B2   Threshold
+ *  Outmax |    ______
+ *         |   /|
+ *         |  / |
+ *         | /  |
+ *         |/_________ B1
+ */
+void ImageProcess::linearColorManipulation(COLOR _color, uint8_t _threshold)
+{
+    size_t height = org.getHeight();
+    size_t width = org.getWidth();
+
+    // Calculate k value
+    uint8_t k = COLORMAX/_threshold;
+    // Loop through picture
+    for (size_t h=0; h<height; h++ ) {
+        for( size_t w=0; w<width; w++ ) {
+            Pixel pix = org.getPixel(w, h);
+            if( pix.getColor(_color) <= _threshold ) {
+                //uint8_t value = k * pix.getColor(_color);
+                pix.setColor(_color, k * pix.getColor(_color));
+            } else {
                 pix.setColor(_color, COLORMAX);
             }
             mod.setPixel(w, h, pix);
@@ -62,28 +114,11 @@ void ImageProcess::binarisation(COLOR _color, uint8_t _threshold)
     }
 }
 
-void ImageProcess::linearColorManipulation(COLOR _color, uint8_t _threshold)
-{
-    size_t height = org.getHeight();
-    size_t width = org.getWidth();
-
-    for (size_t h=0; h<height; h++ ) {
-        for( size_t w=0; w<width; w++ ) {
-            Pixel pix = org.getPixel(w, h);
-            if( pix.getColor(_color) >= _threshold )
-                pix.setColor(_color, 0);
-            else {
-                uint8_t value = COLORMAX/_threshold;
-                pix.setColor(_color, value);
-            }
-            mod.setPixel(w, h, pix);
-        }
-    }
-}
-
-/* This will manipulate the color according to a table. The table has to be 255
+/* This will manipulate the color according to a table. The table has to have a size of 255
  * @_color [COLOR]
  * @_table [uint8_t[255]]
+ *
+ *
  */
 void ImageProcess::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table)
 {
@@ -92,9 +127,10 @@ void ImageProcess::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,C
 
     for (size_t h=0; h<height; h++ ) {
         for( size_t w=0; w<width; w++ ) {
-            Pixel pix = org.getPixel(h,w);
-            pix.setColor(_color, _table.at(pix.getColor(_color)));
-            mod.setPixel(h,w,pix);
+            Pixel pix = org.getPixel(w, h);
+            uint8_t value = _table.at(pix.getColor(_color));
+            pix.setColor(_color, value);
+            mod.setPixel(w, h, pix);
         }
     }
 }

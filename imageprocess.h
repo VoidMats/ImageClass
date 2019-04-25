@@ -26,7 +26,7 @@ public:
 
     // Public image process functions
     void convToGray();
-    void binarisation(COLOR _color, uint8_t _threshold);
+    void binarisation(COLOR _color, uint8_t _threshold, uint8_t _min=0, uint8_t _max=COLORMAX);
     void linearColorManipulation(COLOR _color, uint8_t _threshold);
     void nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table);
     void pointDifferentFilter(COLOR _color, uint8_t _factor=1);
