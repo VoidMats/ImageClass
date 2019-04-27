@@ -118,9 +118,15 @@ void ImageProcess::linearColorManipulation(COLOR _color, uint8_t _threshold)
  * @_color [COLOR]
  * @_table [uint8_t[255]]
  *
- *
+ *         B2      Threshold
+ *          |          ______
+ *  Outmax  |          |
+ *          |      ____|
+ *          |   ___|
+ *          |  /
+ *          |_/______________ B1
  */
-void ImageProcess::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX> _table)
+void ImageProcess::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX+1> _table)
 {
     size_t height = org.getHeight();
     size_t width = org.getWidth();
@@ -128,6 +134,10 @@ void ImageProcess::nonlinearColorManipulation(COLOR _color, std::array<uint8_t,C
     for (size_t h=0; h<height; h++ ) {
         for( size_t w=0; w<width; w++ ) {
             Pixel pix = org.getPixel(w, h);
+            //int color = static_cast<int>(pix.getColor(_color));
+            //if( color>static_cast<int>(COLORMAX) )
+            //    color = COLORMAX;
+            //std::cout << color << " ";
             uint8_t value = _table.at(pix.getColor(_color));
             pix.setColor(_color, value);
             mod.setPixel(w, h, pix);
@@ -166,5 +176,10 @@ void ImageProcess::pointDifferentFilter(COLOR _color, uint8_t _factor)
             mod.setPixel(width, height, pix);
         }
     }
+
+}
+
+void ImageProcess::meanFilter(COLOR _color)
+{
 
 }

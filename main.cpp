@@ -50,18 +50,21 @@ int main(int argc, char *argv[])
     //file.saveImage("./test4.jpg", binar2Image);
 
     // *** Testing nonlinearColorManipulation ***
-    std::array<uint8_t,COLORMAX> table;
+    /*std::array<uint8_t,COLORMAX+1> table;
     for (uint8_t i=0; i<COLORMAX; i++) {
-        table[i] = i;
+        size_t value = static_cast<size_t>(i*i); // f(x)=x^2
+        if( value>COLORMAX )
+            value = COLORMAX;
+        table[i] = static_cast<uint8_t>(value);
     }
     normalProcess.nonlinearColorManipulation(gray, table);
     Image nonlinearImage = normalProcess.getProcessImage();
-    file.saveImage("./test5.jpg", nonlinearImage);
+    file.saveImage("./test5.jpg", nonlinearImage); */
 
     // *** Testing point different filter ***
-    //normalProcess.pointDifferentFilter(gray);
-    //Image filterImage = normalProcess.getProcessImage();
-    //file.saveImage("./test4.jpg", linearImage);
+    normalProcess.pointDifferentFilter(gray);
+    Image filterImage = normalProcess.getProcessImage();
+    file.saveImage("./test4.jpg", filterImage);
 
     //Image testImage = file.loadImage("./sample20Big.png");
     //file.saveImage("./test5.jpg", testImage);
