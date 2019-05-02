@@ -62,9 +62,14 @@ int main(int argc, char *argv[])
     file.saveImage("./test5.jpg", nonlinearImage); */
 
     // *** Testing point different filter ***
-    normalProcess.pointDifferentFilter(gray);
-    Image filterImage = normalProcess.getProcessImage();
-    file.saveImage("./test4.jpg", filterImage);
+    //normalProcess.pointDifferentFilter(gray,3);
+    //Image filterImage = normalProcess.getProcessImage();
+    //file.saveImage("./test4.jpg", filterImage);
+
+    // *** Testing mean filter ***
+    normalProcess.meanFilter(gray);
+    Image meanImage = normalProcess.getProcessImage();
+    file.saveImage("./test5.jpg", meanImage);
 
     //Image testImage = file.loadImage("./sample20Big.png");
     //file.saveImage("./test5.jpg", testImage);

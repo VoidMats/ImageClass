@@ -166,20 +166,54 @@ void ImageProcess::pointDifferentFilter(COLOR _color, uint8_t _factor)
             Pixel pixC{ org.getPixel(w, h-1) };
             Pixel pixD{ org.getPixel(w, h+1) };
 
-            // TODO this is not working
+            int value1 = abs(pixA.getColor(_color)-pixB.getColor(_color));
+            int value2 = abs(pixC.getColor(_color)-pixD.getColor(_color));
+            int tmp = (value1 + value2)/2 * _factor;
+            if( tmp>255 )
+                tmp = 255;
+            else if( tmp<0 )
+                tmp = 0;
             uint8_t result = static_cast<uint8_t>(
                     ( abs(pixA.getColor(_color)-pixB.getColor(_color)) +
                       abs(pixC.getColor(_color)-pixD.getColor(_color)) ) / 2 );
+            result = static_cast<uint8_t>(result * _factor);
+            if( result>COLORMAX )
+                result = COLORMAX;
 
             Pixel pix{ org.getPixel(w,h) };
             pix.setColor(_color, result);
-            mod.setPixel(width, height, pix);
+            mod.setPixel(w, h, pix);
         }
     }
 
 }
 
+/* This will manipulate the image with a filter according to a submatrix
+ * @_color  [COLOR]
+ *
+ *  size kxl (3x3)
+ *  [1][1][1]
+ *  [1][1][1] formula B2(i,j)= f(k,l) * B1(i+k,j+l)
+ *  [1][1][1]
+ */
 void ImageProcess::meanFilter(COLOR _color)
 {
+    size_t height = org.getHeight();
+    size_t width = org.getWidth();
+    //std::vector<uint8_t> f(3*3, 1);
 
+    for (size_t h=1; h<height-1; h++ ) {
+        for ( size_t w=1; w<width-1; w++ ) {
+            // Internal loop for submatrix
+            size_t value{0};
+            for (int k=-1; k<1; ++k) {
+                for (int l=-1; l<1; ++l) {
+                    value += 1*org.getPixel(w+k,h+l).getColor(_color);
+                }
+            }
+            Pixel pix = org.getPixel(w,h);
+            pix.setColor(_color,value/9);
+            mod.setPixel(w,h,pix);
+        }
+    }
 }

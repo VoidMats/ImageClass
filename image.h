@@ -14,7 +14,7 @@
 // Library includes
 
 const uint8_t COLORMAX{255};
-const uint8_t uint8_COLORMAX{255};
+//const uint8_t uint8_COLORMAX{255};
 
 class Image
 {
