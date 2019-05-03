@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
 // Classes
 #include "pixel.h"
 #include "image.h"
@@ -31,8 +32,8 @@ public:
     void linearColorManipulation(COLOR _color, uint8_t _threshold);
     void nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX+1> _table);
     void pointDifferentFilter(COLOR _color, uint8_t _factor=1);
-    // TODO from here and downwords
     void meanFilter(COLOR _color);
+       // TODO from here and downwords
     void medianFilter(COLOR _color);
     void laplaceFilter(COLOR _color);
     void contrastEnhancementFilter(COLOR _color);

@@ -67,13 +67,17 @@ int main(int argc, char *argv[])
     //file.saveImage("./test4.jpg", filterImage);
 
     // *** Testing mean filter ***
-    normalProcess.meanFilter(gray);
-    Image meanImage = normalProcess.getProcessImage();
-    file.saveImage("./test5.jpg", meanImage);
+    //normalProcess.meanFilter(gray);
+    //Image meanImage = normalProcess.getProcessImage();
+    //file.saveImage("./test5.jpg", meanImage);
+
+    // *** Testing median filter ***
+    normalProcess.medianFilter(gray);
+    Image medianImage = normalProcess.getProcessImage();
+    file.saveImage("./test6.jpg", medianImage);
 
     //Image testImage = file.loadImage("./sample20Big.png");
     //file.saveImage("./test5.jpg", testImage);
-
 
     //Image ie(50,50);
     //for( size_t i=0; i<ie.getHeight(); i++) {
