@@ -192,7 +192,6 @@ void ImageProcess::meanFilter(COLOR _color)
 {
     size_t height = org.getHeight();
     size_t width = org.getWidth();
-    //std::vector<uint8_t> f(3*3, 1);
 
     for (size_t h=1; h<height-1; h++ ) {
         for ( size_t w=1; w<width-1; w++ ) {
@@ -237,6 +236,70 @@ void ImageProcess::medianFilter(COLOR _color)
             std::sort(vec.begin(), vec.end());
             Pixel pix = org.getPixel(w,h);
             pix.setColor(_color,static_cast<uint8_t>(vec.at(4)));
+            mod.setPixel(w,h,pix);
+        }
+    }
+}
+
+/* This will manipulate the image with a filter according to a submatrix
+ * @_color  [COLOR]
+ *
+ *  size kxl (3x3)
+ *  [0][-1][0]
+ *  [-1][4][-1] formula B2(i,j)= f(k,l) * B1(i+k,j+l)
+ *  [0][-1][0]
+ */
+void ImageProcess::laplaceFilter(COLOR _color)
+{
+    size_t height = org.getHeight();
+    size_t width = org.getWidth();
+    std::vector<int> sub{0,-1,0,-1,4,-1,0,-1,0};
+
+    for (size_t h=1; h<height-1; h++ ) {
+        for ( size_t w=1; w<width-1; w++ ) {
+            // Internal loop for submatrix
+            int value{0};
+            for (int k=-1; k<=1; ++k) {
+                for (int l=-1; l<=1; ++l) {
+                    int tmp = org.getPixel(w+k,h+l).getColor(_color);
+                    tmp = sub.at((k+1)*2 + (l+1))*tmp;
+                    value += tmp;
+                }
+            }
+            Pixel pix = org.getPixel(w,h);
+            pix.setColor(_color,static_cast<uint8_t>(value/9));
+            mod.setPixel(w,h,pix);
+        }
+    }
+}
+
+/* This will manipulate the image with a filter according to a submatrix
+ * @_color  [COLOR]
+ *
+ *  size kxl (3x3)
+ *  [0][-1][0]
+ *  [-1][5][-1] formula B2(i,j)= f(k,l) * B1(i+k,j+l)
+ *  [0][-1][0]
+ */
+void ImageProcess::contrastEnhancementFilter(COLOR _color)
+{
+    size_t height = org.getHeight();
+    size_t width = org.getWidth();
+    std::vector<int> sub{0,-1,0,-1,5,-1,0,-1,0};
+
+    for (size_t h=1; h<height-1; h++ ) {
+        for ( size_t w=1; w<width-1; w++ ) {
+            // Internal loop for submatrix
+            int value{0};
+            for (int k=-1; k<=1; ++k) {
+                for (int l=-1; l<=1; ++l) {
+                    int tmp = org.getPixel(w+k,h+l).getColor(_color);
+                    tmp = sub.at((k+1)*2 + (l+1))*tmp;
+                    value += tmp;
+                }
+            }
+            Pixel pix = org.getPixel(w,h);
+            pix.setColor(_color,static_cast<uint8_t>(value/9));
             mod.setPixel(w,h,pix);
         }
     }

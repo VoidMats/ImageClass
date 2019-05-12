@@ -69,12 +69,22 @@ int main(int argc, char *argv[])
     // *** Testing mean filter ***
     //normalProcess.meanFilter(gray);
     //Image meanImage = normalProcess.getProcessImage();
-    //file.saveImage("./test5.jpg", meanImage);
+    //file.saveImage("./test5_mean.jpg", meanImage);
 
     // *** Testing median filter ***
-    normalProcess.medianFilter(gray);
-    Image medianImage = normalProcess.getProcessImage();
-    file.saveImage("./test6.jpg", medianImage);
+    //normalProcess.medianFilter(gray);
+    //Image medianImage = normalProcess.getProcessImage();
+    //file.saveImage("./test6_median.jpg", medianImage);
+
+    // *** Testing laplace filter ***
+    normalProcess.laplaceFilter(gray);
+    Image laplaceImage = normalProcess.getProcessImage();
+    file.saveImage("./test7_laplace.jpg", laplaceImage);
+
+    // *** Testing laplace filter ***
+    normalProcess.contrastEnhancementFilter(gray);
+    Image contrastImage = normalProcess.getProcessImage();
+    file.saveImage("./test8_contrast.jpg", laplaceImage);
 
     //Image testImage = file.loadImage("./sample20Big.png");
     //file.saveImage("./test5.jpg", testImage);

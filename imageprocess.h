@@ -33,10 +33,12 @@ public:
     void nonlinearColorManipulation(COLOR _color, std::array<uint8_t,COLORMAX+1> _table);
     void pointDifferentFilter(COLOR _color, uint8_t _factor=1);
     void meanFilter(COLOR _color);
-       // TODO from here and downwords
     void medianFilter(COLOR _color);
     void laplaceFilter(COLOR _color);
     void contrastEnhancementFilter(COLOR _color);
+     // TODO from here and downwords
+    void dilatation(uint8_t nr);
+    void erosion(uint8_t nr);
 
     // Public tables functions
     std::array<uint8_t,COLORMAX+1> createTablePolynom(int _degree, int _factor);
